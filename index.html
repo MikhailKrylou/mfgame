@@ -195,15 +195,25 @@ function updateBot (bot)
 
 function updateBullet (bullet)
 {
-    bullet.x = bullet.x + 29;
+    // вправо
+    if (bullet.dir == 1){
+        bullet.x = bullet.x + 29;
+    }
+    
+    // влево
+    if (bullet.dir == 2){
+        bullet.x = bullet.x - 29;
+    }
+
+    if (bullet.dir == 0){
+        bullet.y = bullet.y - 8;
+    }
+
     bullet.angle = bullet.angle + 29;
       
 }
 function update ()
 {
-    //updateBot (bots[0]);
-    //updateBot (bots[1]);
-    //updateBot (bots[2]);
 
     for (let i = 0;i<bots.length;++i){
         let bot = bots[i];
@@ -224,19 +234,25 @@ function update ()
     {
         player.setVelocityX(-160);
 
-        player.anims.play('left', true);
+        player.anims.play('left', true)
+
+        player.dir = 2;
     }
     else if (cursors.right.isDown)
     {
         player.setVelocityX(160);
 
         player.anims.play('right', true);
+
+        player.dir = 1;
     }
     else
     {
         player.setVelocityX(0);
 
         player.anims.play('turn');
+
+        player.dir = 0;
     }
 
     if (cursors.up.isDown && player.body.touching.down)
@@ -330,6 +346,9 @@ function handlePointerDown(pointer)
         let bullet = this.physics.add.sprite(player.x,player.y, 'bullet');
         this.physics.add.collider(bullet, bots, hitBullet, null, this);
         bullets.push(bullet);
+
+        bullet.dir = player.dir;
+
     }else{
         let x = pointer.x;
         let y = pointer.y;
