@@ -43,6 +43,10 @@ let dude_HP = 10;
 let star_HP = 1;
 let bot_demage = 1;
 let bullets = [];
+const DIR_UP = 0;
+const DIR_RIGHT = 1;
+const DIR_LEFT = 2;
+const RIGHT_CLICK = 2;
 
 function preload ()
 {
@@ -117,6 +121,11 @@ function createBot (game,x,y)
 
 function create ()
 {
+
+    setInterval(creatBotInt,1900,this,1100,80);
+    setInterval(creatBotInt,1600,this,500,80);
+    setInterval(creatBotInt,1200,this,50,80);
+
     this.add.image(400, 300, 'sky');
     this.add.image(1000, 300, 'sky');
 
@@ -195,17 +204,15 @@ function updateBot (bot)
 
 function updateBullet (bullet)
 {
-    // вправо
-    if (bullet.dir == 1){
+    if (bullet.dir == DIR_RIGHT){
         bullet.x = bullet.x + 29;
     }
     
-    // влево
-    if (bullet.dir == 2){
+    if (bullet.dir == DIR_LEFT){
         bullet.x = bullet.x - 29;
     }
 
-    if (bullet.dir == 0){
+    if (bullet.dir == DIR_UP){
         bullet.y = bullet.y - 8;
     }
 
@@ -236,7 +243,7 @@ function update ()
 
         player.anims.play('left', true)
 
-        player.dir = 2;
+        player.dir = DIR_LEFT;
     }
     else if (cursors.right.isDown)
     {
@@ -244,7 +251,7 @@ function update ()
 
         player.anims.play('right', true);
 
-        player.dir = 1;
+        player.dir = DIR_RIGHT;
     }
     else
     {
@@ -252,7 +259,7 @@ function update ()
 
         player.anims.play('turn');
 
-        player.dir = 0;
+        player.dir = DIR_UP;
     }
 
     if (cursors.up.isDown && player.body.touching.down)
@@ -342,7 +349,7 @@ function hitBombBot (bot, bomb)
 function handlePointerDown(pointer)
 {
 
-    if (pointer.button == 2){
+    if (pointer.button == RIGHT_CLICK){
         let bullet = this.physics.add.sprite(player.x,player.y, 'bullet');
         this.physics.add.collider(bullet, bots, hitBullet, null, this);
         bullets.push(bullet);
@@ -356,6 +363,12 @@ function handlePointerDown(pointer)
         bots.push(bot_bot);
         
     }
+}
+
+function creatBotInt (game,x,y)
+{
+    let bot_bot = createBot (game,x,y);
+    bots.push(bot_bot); 
 }
 
 </script>
