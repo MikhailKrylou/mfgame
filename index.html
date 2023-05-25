@@ -121,10 +121,9 @@ function createBot (game,x,y)
 
 function create ()
 {
-
-    setInterval(creatBotInt,1900,this,1100,80);
-    setInterval(creatBotInt,1600,this,500,80);
-    setInterval(creatBotInt,1200,this,50,80);
+    setInterval(creatBotInt,500,this);
+    /*setInterval(creatBotInt,1600,this,500,80);
+    setInterval(creatBotInt,1200,this,50,80);*/
 
     this.add.image(400, 300, 'sky');
     this.add.image(1000, 300, 'sky');
@@ -365,10 +364,14 @@ function handlePointerDown(pointer)
     }
 }
 
-function creatBotInt (game,x,y)
+function creatBotInt (game)
 {
-    let bot_bot = createBot (game,x,y);
-    bots.push(bot_bot); 
+    let r = Math.random();
+    let rx = r * 1400;
+    let ry = r * 200;
+    
+    let bot_bot = createBot (game,rx,ry);
+    bots.push(bot_bot);
 }
 
 </script>
